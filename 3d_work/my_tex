@@ -1,0 +1,174 @@
+ratprint: false$
+
+LagerrFormula(n,x):=(
+    rat((1/n!)*exp(x)*diff((exp(-x)*x^n),x,n))
+)$
+
+
+LagerrFormulaRec(n,x):=(
+    if n = 0 then
+        1
+    else if n = 1 then
+        1-x
+    else 
+       rat( (1/n)*((2*n-1-x)*LagerrFormulaRec(n-1,x)-(n-1)*LagerrFormulaRec(n-2,x)))
+)$
+
+LagerrFormulaDiff(n,x):=(
+    diff(LagerrFormula(n,x),x)
+)$
+
+n:[15,16,17,18,19,20]$
+
+plot2d(
+    makelist(LagerrFormula(i, x), i, n),
+    [x, -5.0, 20.0], [xtics, 5.0], [xlabel, false],
+    [y, -20.0, 20.0],[ytics, 5.0],[ylabel, false],
+    [style, [lines,1]],[grid2d, true],
+    cons(legend,  
+        makelist(
+            printf(false,
+"n=~a",i),i,n)),
+   [title, 
+        printf(false,
+"Lagerr polynomials")],
+   [gnuplot_preamble,
+"set key bottom left; 
+          set key spacing 2 vertical maxrows 2"],    
+    [gnuplot_pdf_term_command, 
+"set terminal pngcairo enchanced crop"],
+   [png_file, "/home/stas/4SEM/SAV/polynomials1.png"]
+)$
+
+plot2d(
+    makelist(LagerrFormulaRec(i, x), i, n),
+    [x, -5.0, 20.0], [xtics, 5.0], [xlabel, false],Безымянная папка
+    [y, -20.0, 20.0],[ytics, 5.0],[ylabel, false],
+    [style, [lines,1]],[grid2d, true],
+cons(legend,  
+  makelist(
+            printf(false,
+"n=~a",i),i,n)),
+    [title, 
+        print(false,
+"Lagerr polynomials using RecFormula")],
+    [gnuplot_preamble,
+"set key bottom left; 
+          set key spacing 2 vertical maxrows 2"],
+    [gnuplot_pdf_term_command, 
+"set terminal pngcairo enchanced crop"],
+    [png_file, "/home/stas/4SEM/SAV/polynomials2.png"]
+)$
+
+plot2d(
+    makelist(LagerrFormulaDiff(i, x), i, n),
+    [x, -5.0, 20.0], [xtics, 5.0], [xlabel, false],
+    [y, -20.0, 20.0],[ytics, 5.0],[ylabel, false],
+    [style, [lines,1]],[grid2d, true],
+    cons(legend,  
+        makelist(
+            printf(false,
+"n=~a",i),i,n)),
+   [title, 
+ printf(false,
+"Lagerr polynomials derivatives")],
+
+   [gnuplot_preamble,
+"set key bottom left; 
+          set key spacing 2 vertical maxrows 2"],
+    [gnuplot_pdf_term_command, 
+"set terminal pngcairo enchanced crop"],
+   [png_file, "/home/stas/4SEM/SAV/derivatives.png"]
+)$
+
+ostream:openw ("/home/stas/4SEM/SAV/file.tex")$
+printf(ostream,"~a~%","\\documentclass[12pt,a4paper,oneside]{article}")$
+printf(ostream,"~a~%","\\usepackage[utf8]{inputenc}")$
+printf(ostream,"~a~%","\\usepackage[OT1]{fontenc}")$
+printf(ostream,"~a~%","\\usepackage{amsmath}")$
+printf(ostream,"~a~%","\\usepackage{amsfonts}")$
+printf(ostream,"~a~%","\\usepackage{amssymb}")$
+printf(ostream,"~a~%","\\usepackage{graphicx}")$
+printf(ostream,"~a~%","\\usepackage{float}")$
+printf(ostream,"~a~%","\\setlength{\\parindent}{0pt}")$
+printf(ostream,"~a~%","\\usepackage[width=0.00cm, height=0.00cm, left=2.00cm, right=2.00cm, top=2.00cm, bottom=2.00cm]{geometry}")$
+printf(ostream,"~a~%","\\usepackage[T2A]{fontenc}")$
+printf(ostream,"~a~%","\\usepackage[russian]{babel}")$
+printf(ostream,"~a~%","\\usepackage{titlesec}")$
+printf(ostream,"~a~%","\\titleformat{\\section}")$
+printf(ostream,"~a~%","{\\normalfont\\Large\\bfseries}")$
+printf(ostream,"~a~%","{\\thechapter}{}{}")$
+printf(ostream,"~a~%","[\\vspace{.5ex}\\titlerule]")$
+printf(ostream,"~a~%","\\titleformat{\\subsection}")$
+printf(ostream,"~a~%","{\\normalfont\\large\\bfseries}")$
+printf(ostream,"~a~%","{\\thechapter}{}{}")$
+printf(ostream,"~a~%","[\\vspace{.5ex}\\titlerule]")$
+printf(ostream,"~a~%","\\begin{document}")$
+
+printf(ostream, "~a~%", "\\section*{Многочлены Лагерра}")$
+printf(ostream, "~a~%", "В математике многочлены Лагерра,названные в честь Эдмона Лагерра (1834—1886), являются каноническими решениями уравнения Лагерра:")$
+printf(ostream, "~a~%", "$$ xy'' + (1-x)y' +ny = 0$$")$
+printf(ostream, "~a~%", "являющегося линейным дифференциальным уравнением второго порядка.")$
+printf(ostream, "~a~%", "Многочлены Лагерра, обычно обозначающиеся как $L_{0},L_{1},\\ldots$, являются
+     последовательностью полиномов, которая может быть найдена по формуле Родрига:")$
+printf(ostream, "~a~%", "$$ L_{n}(x) = \\frac{e^{x}}{n!} \\frac{d^{n}}{dx^{n}} (e^{-x}x^n).$$")$
+printf(ostream, "~a~%", "В физической кинетике эти же многочлены (иногда с точностью до нормировки) принято называть полиномами Сонина или Сонина — Лагерра.
+     Многочлены Лагерра также используются в квадратурной формуле Гаусса — Лагерра численного вычисления интегралов вида:")$
+printf(ostream, "~a~%", "$$\\int\\limits_{0}^{\\infty} f(x)e^{-x}dx.$$")$ 
+
+printf(ostream, "~a~%", "\\subsection*{0-6 многочлены Лаггера}")$
+
+for i: 0 thru length(n) do(
+        printf(ostream, "~a~d~a~%", "$L_{",i,"}=$"),
+        tex(LagerrFormula(i,x) , ostream)    
+)$
+set_tex_environment_default ("$$", "$$")$
+
+
+printf(ostream, "~a~%", "\\subsection*{Графики многочленов Лагерра 15-20}")$
+
+printf(ostream, "~a~%", "\\\begin{figure}[H]")$
+printf(ostream, "~a~%", "\\centering\\includegraphics[width=\\textwidth]{polynomials1.png}")$
+printf(ostream, "~a~%", "\\end{figure}")$
+
+printf(ostream, "~a~%", "\\\begin{figure}[H]")$
+printf(ostream, "~a~%", "\\centering\\includegraphics[width=\\textwidth]{polynomials2.png}")$
+printf(ostream, "~a~%", "\\end{figure}")$
+
+printf(ostream, "~a~%", "\\subsection*{Графики производных многочленов Лагерра 15-20}")$
+
+printf(ostream, "~a~%", "\\\begin{figure}[H]")$
+printf(ostream, "~a~%", "\\centering\\includegraphics[width=\\textwidth]{derivatives.png}")$
+printf(ostream, "~a~%", "\\end{figure}")$
+
+printf(ostream, "~a~%", "\\subsection*{Ортогональность полиномов}")$
+printf(ostream, "~a~%", "Эти полиномы ортогональны друг другу со скалярным произведением:")$ 
+printf(ostream, "~a~%", "$$\\int\\limits_{0}^{\\infty} f(x)g(x)e^{-x}dx.$$")$ 
+
+infix ("hfill", 80, 80)$
+texput ("hfill", " \\hfill = ", infix)$
+
+set_tex_environment_default ("\\begin{multline*}", "\\end{multline*}")$
+for i: 1 thru length(n) do(
+    for j:i+1 thru length(n)-2 do(
+        printf(ostream, "~a~d~a~d~a~%", "Скалярное произведение $n=", i ,"и  n=",j,"$"),
+        value: 'integrate(ratsimp(LagerrFormula(i,x)*LagerrFormula(j, x)*exp(-x)), x, 0 , inf),
+        tex(value hfill ev(value,nouns) , ostream)
+    )
+)$
+set_tex_environment_default ("$$", "$$")$
+
+printf(ostream, "~a~%", "\\subsection*{Рекуррентное соотношение}")$
+printf(ostream, "~a~%", "Полиномы Лагерра можно определить рекуррентной формулой:  ")$
+printf(ostream, "~a~%", "$$ L_{k+1}(x) = \\frac{1}{k+1}[(2k+1-x)L_{k}(x) - kL_{k-1}(x)] k>=1,$$")$
+printf(ostream, "~a~%", "предопределив первые два полинома как: ")$
+printf(ostream, "~a~%", "$$ L_{0}(x) = 1,$$")$
+printf(ostream, "~a~%", "$$ L_{1}(x) = 1-x.$$")$
+
+printf(ostream, "~a~%", "\\subsection*{Обобщённые полиномы Лагерра}")$
+printf(ostream, "~a~%", "Обобщённые полиномы Лагерра ${L_{n}}^{a}(x)$ являются решениями уравнения: ")$
+printf(ostream, "~a~%", "$$ xy'' + (a+1-x)y' +ny = 0$$")$
+printf(ostream, "~a~%", "так что $L_{n}(x) = {L_{n}}^{a}(x).$")$
+
+printf(ostream,"~a~%","\\end{document}")$
+close(ostream)

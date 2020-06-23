@@ -1,0 +1,360 @@
+print("part 1")$
+
+print("5.1")$
+a: 'limit(sum((k-1)/n^2, k, 2, n), n, inf)$
+print (a, "=", ev(a,simpsum,nouns))$
+
+print("7.1")$
+b: 'limit((2*x^2 + 5*x - 3)/(x+3), x, -3)$
+print (b, "=", ev(b,nouns))$
+
+print("12.1")$
+c: 'limit((x^2-1)/log(x), x, 1)$
+print (c, "=", ev(c,nouns))$
+
+print("19.1")$
+d: 'limit(((log(x) - 1)/(x - %e))^(sin(%pi/(2*%e))*x), x, %e)$
+print (d, "=", ev(d,nouns))$
+
+print("part 2")$
+
+print("2.1")$
+print("formula: y-f(x0) = 1/f'(x0)*(x-x0)")$
+y(x):=(4*x - x^2)/4$
+x0:2$
+print("y=",y(x),"x0=",x0)$
+d(in):=at(diff(y(x),x),x=in)$ 
+print("d(x0) = 0")$
+print("then formula: y-f(x0) = (x-x0)")$
+n: y - y(x0) - (x-x0)$
+print("n:",n, "= 0")$
+
+print("3.1")$
+y(x):= x*asin(1/x)+log(abs(x+ sqrt(x^2-1)))$
+print("y(x)= ",y(x))$
+depends(y,x)$
+print("dy=",diff(y(x),x))$
+
+print("11.1")$
+y(x):=(atan(x))^((1/2)*log(atan(x)))$
+print("y(x)= ",y(x))$
+print("y(x)'=",diff(y(x),x))$
+
+print("15.1")$
+x(t):=(3*t^2+1)/(3*t^3)$
+y(t):=sin(t^3/3 + t)$
+print("x(t)= ",x(t))$
+print("y(t)= ",y(t))$
+print(diff(y(t),t)/diff(x(t),t))$
+
+print("17.1")$kill(all);
+y(x):= x*%e^(a*x)$
+print("y(x)= ",y(x))$
+print("y(x)' till n=",diff(y(x),x,n))$
+
+
+print("part 3")$
+
+print("6.1")$
+y(x):=(17-x^2)/(4*x-5)$
+print("y(x)= ",y(x))$
+print("sloping as:")$
+k:limit(y(x)/x,x,inf)$
+b:limit(y(x)-k*x,x,inf)$
+print("k=",k)$
+print("b=",b)$
+f(x):=k*x+b$
+print("f(x)=" , ev(f(x)))$  
+print("vertical as:")$
+print(solve(4*x-5 = 0))$
+a:5/4 $
+print("a=",a)$
+print("limit f(x), x->a+0 =",limit(y(x),x,a,plus))$
+print("limit f(x), x->a-0 =",limit(y(x),x,a,minus))$
+print("so vertical as:")$
+print("x= ",a)$
+maxima_tempdir:"D://temp_maxima";
+wxplot2d([y(x),f(x),[discrete,[a-1,a-1],[-50,50]]],[x,-50,50],[y,-50,50])$
+
+print("part 4")$
+
+print("4.1")$
+a: 'integrate((1+log(x-1))/(x-1),x,%e+1,%e^2+1)$
+print (a, "=", ev(a,nouns))$
+
+print("14.1")$
+f(x):=(x-2)^3$
+print("f(x)= ",f(x))$
+g(x):=4*x-8$
+print("g(x)= ",g(x))$
+print(solve(f(x)=g(x)))$
+x1:0$
+x2:2$
+x3:4$
+i1:'integrate(f(x)-g(x),x,x1,x2)$
+i2:'integrate(f(x)-g(x),x,x2,x3)$
+print (i1, "=", ev(i1,nouns))$
+print (i2, "=", ev(i2,nouns))$
+print (i1+i2, "=", ev(i1,nouns)+ev(i2,nouns))$
+
+print("17.1")$
+f(x):=log(x)$
+print("f(x)= ",f(x))$
+c:'integrate((1-diff(f(x),x)^2)^(1/2),x,3^(1/2),15^(1/2))$
+print (c, "=", ev(c,simp,diff,integrate,nouns))$
+
+print("8.1")$
+b: 'integrate(1/((sin(x))^2*(1-cos(x))),x,%pi/2,2*atan(2))$  
+print (b, "=",trigexpand(ev(b,nouns)))$
+
+
+print("part 5")$
+
+print("4.1")$
+differ:'diff(y,x) - y/x = x^2$
+integral:ode2(differ,y,x)$
+x0:1$
+y0:0$
+ans:ic1(integral,x = x0,y = y0)$
+print("diff equation =",differ)$
+print("cond:")$
+print("x0 =",x0)$
+print("y0 =",y0)$
+print("Answer =",ans)$
+
+kill(all)$
+print("14.1")$
+differ:'diff(y,x,2)+2*diff(y,x,1)=4*e^x*(sin(x)+cos(x))$
+ans:ode2(differ,y,x)$
+print("diff equation =",differ)$
+print("Answer =",trigexpand(ans))$
+
+
+print("part 6")$
+
+print("1.1")$
+load("simplify_sum")$
+a(n):=2/(n^2-14*n+48)$
+print("a(n) = ", a(n))$
+n0:9$
+nk:inf$
+print("n0 = ", n0)$
+print("nk = ", nk)$
+S(m):=simplify_sum(sum(a(n),n,n0,m))$
+print("sum = ", S(nk))$
+
+kill(all)$
+print("4.1")$
+a(n):=(n+1)/(2^n*(n-1)!)$
+print("a(n) = ", a(n))$
+print("D'Alamber")$
+ans:'limit(a(n+1)/a(n),n,inf)$
+print(ans," =", ev(ans,nouns))$
+print("< 1 => yes")$
+
+kill(all)$
+print("5.1")$
+a(n):=1/3^n * (n/(n+1))^(-n^2)$
+print("a(n) = ", a(n))$
+print("D'Alamber")$
+ans:'limit(a(n+1)/a(n),n,inf)$
+print(ans," =", ev(ans,nouns))$
+print("< 1 => yes")$
+
+
+print("part 7")$
+print("2.1")$
+v(x,y,z):=x^3/2 + 6*y^3 + 3*6^(1/2)*z^3$
+u(x,y,z):= y*z^2/x^2$
+m_x:sqrt(2)$
+m_y:1/sqrt(2)$
+m_z:1/sqrt(3)$
+print("M(", m_x,",",m_y,",",m_z, ")")$
+print("Найдем частные производные для поля U")$
+
+du_x(x,y,z):=at(diff(u(x_,y_,z_),x_,1),[x_=x, y_=y, z_=z])$
+du_y(x,y,z):=at(diff(u(x_,y_,z_),y_,1),[x_=x, y_=y, z_=z])$
+du_z(x,y,z):=at(diff(u(x_,y_,z_),z_,1),[x_=x, y_=y, z_=z])$
+derivabbrev:true$
+print('diff('u(x,y,z),x),"=",du_x(x,y,z))$
+print('diff('u(x,y,z),y),"=",du_y(x,y,z))$
+print('diff('u(x,y,z),z),"=",du_z(x,y,z))$
+
+du_xm:du_x(m_x,m_y,m_z)$
+du_ym:du_y(m_x,m_y,m_z)$
+du_zm:du_z(m_x,m_y,m_z)$
+
+print("Вычислим частные производные в точке M")$
+print('diff('u(m_x,m_y,m_z),x),"=",du_xm)$
+print('diff('u(m_x,m_y,m_z),y),"=",du_ym)$
+print('diff('u(m_x,m_y,m_z),z),"=",du_zm)$
+
+print("gradU=(", du_xm,",",du_ym,",",du_zm,")")$
+
+print("Найдем частные производные для поля V")$
+
+dv_x(x,y,z):=at(diff(v(x_,y_,z_),x_,1),[x_=x, y_=y, z_=z])$
+dv_y(x,y,z):=at(diff(v(x_,y_,z_),y_,1),[x_=x, y_=y, z_=z])$
+dv_z(x,y,z):=at(diff(v(x_,y_,z_),z_,1),[x_=x, y_=y, z_=z])$
+derivabbrev:true$
+print('diff('v(x,y,z),x),"=",dv_x(x,y,z))$
+print('diff('v(x,y,z),y),"=",dv_y(x,y,z))$
+print('diff('v(x,y,z),z),"=",dv_z(x,y,z))$
+
+dv_xm:dv_x(m_x,m_y,m_z)$
+dv_ym:dv_y(m_x,m_y,m_z)$
+dv_zm:dv_z(m_x,m_y,m_z)$
+
+print("Вычислим частные производные в точке M")$
+print('diff('v(m_x,m_y,m_z),x),"=",dv_xm)$
+print('diff('v(m_x,m_y,m_z),y),"=",dv_ym)$
+print('diff('v(m_x,m_y,m_z),z),"=",dv_zm)$
+
+print("gradV=(", dv_xm,",",dv_ym,",",dv_zm,")")$
+
+print ("Вычислим угол между градиентами")$
+simp : false $
+angl:acos((du_xm*dv_xm+du_ym*dv_ym+du_zm+dv_zm)/(sqrt(du_xm^2+du_ym^2+du_zm^2)*sqrt(dv_xm^2+dv_ym^2+dv_zm^2)))$
+simp : true $
+print(?,"=", ev(angl, nouns))$
+
+
+print("part 8")$
+print("2.1")$
+V1:matrix([1],[-2],[3])$
+print("A=", V1)$
+V2:matrix([3],[0],[-1])$
+print("B=", V2)$
+C1:2*V1+4*V2$
+print('C_1,"=", "2","*",V1,"+4","*",V2)$
+C2:3*V2-V1$
+print('C_2,"=", "3","*",V2,"-","*",V1)$
+M1:matrix(list_matrix_entries(C1), list_matrix_entries(C2))$
+R:'rank(M1)$
+print(R,"=",ev(R,nouns))$
+print("->no")$
+
+print("7.1")$
+plane(A,B,C):=determinant(matrix([x-A[1],B[1]-A[1],C[1]-A[1]],[y-A[2],B[2]-A[2],C[2]-A[2]],[z-A[3],B[3]-A[3],C[3]-A[3]]))$
+distns(D,C):=(D[1]*C[1]+D[2]*C[2]+D[3]*C[3]+C[4])/sqrt(C[1]^2+C[2]^2+C[3]^2)*abs(C[4])/C[4]$
+A:[-3,4,-7]$
+B:[1,5,-4]$
+C:[-5,-2,0]$
+D:[12,7,-1]$
+print(M_1=A,M_2=B,M_3=C,M_0=D)$
+print("equatoin")$
+eqw:ratsimp(plane(A,B,C))$
+print('determinant(matrix([x-x_1,x_2-x_1,x_3-x_1],[y-y_1,y_2-y_1,y_3-y_1],[z-z_1,z_2-z_1,z_3-z_1])),"=",eqw)$
+print("normal", eqw)$
+x_:ratcoeff(eqw,x,1)$
+eqw:eqw-x_*x$
+y_:ratcoeff(eqw,y,1)$
+eqw:eqw-y_*y$
+z_:ratcoeff(eqw,z,1)$
+eqw:eqw-z_*z$
+N:[x_,y_,z_, eqw];
+dst:distns(D,N)$
+print("distance",M_0," to plane",dst)$
+
+
+print("part 9")$
+
+load("eigen");
+print("3.1")$
+print("1st")$
+
+e_1:3*x_1+x_2-4*x_3+2*x_4+x_5=0$
+e_2:2*x_1-2*x_2-3*x_3-7*x_4-2*x_5=0$
+e_3:x_1+11*x_2+0*x_3+34*x_4-5*x_5=0$
+
+print(e_1)$
+print(e_2)$
+print(e_3)$
+
+%rnum:0$
+s_1:algsys ([e_1,e_2,e_3], [x_1, x_2, x_3, x_4, x_5]);
+
+m_1:augcoefmatrix ([e_1,e_2,e_3], [x_1, x_2, x_3, x_4, x_5])$
+
+print("rank")$
+r_1:'rank(m_1)$
+print(r_1,"=",ev(r_1, nouns))$
+n:5$
+k:3$
+dim:n-k$
+print("n=",n)$
+print("dim = ", dim)$
+print("common solution")$
+print(s_1)$
+print("quotient solution")$
+print(ev(s_1, %r1=0, %r2=0, %r3=0))$
+
+print("2nd")$
+
+g_1:x_1+2*x_2-2*x_3-3*x_4=4$
+g_2:2*x_1+5*x_2-x_3-4*x_4=9$
+g_3:x_1+3*x_2+x_3-x_4=5$
+
+print(g_1)$
+print(g_2)$
+print(g_3)$
+%rnum:0$
+s_2:algsys ([g_1,g_2,g_3], [x_1, x_2, x_3, x_4]);
+
+m_2:augcoefmatrix ([g_1,g_2,g_3], [x_1, x_2, x_3, x_4])$
+
+print("rank")$
+r_2:'rank(m_2)$
+print(r_1,"=",ev(r_2, nouns))$
+
+n1:4$
+k1:2$
+dim1:n1-k1$
+print("n1=",n1)$
+print("dim1 = ", dim)$
+
+print("common solution")$
+print(s_2)$
+print("quotient solution")$
+print(ev(s_2, %r1=0, %r2=0, %r3=0))$
+
+print("7.1")$
+A:matrix([1,0,2],[3,-1,0],[1,1,-2])$
+print("lin op matrix")$
+print("A=", A)$
+T:matrix([1,-1,1],[-1,1,-2],[-1,2,1])$
+print("Transformation matrix")$
+print("T=",T)$
+T_in: transpose (T)$
+E:T_in.T$
+A_1:A.T$
+Anew:T_in.A_1$
+print("lin op transformation matrix in new basis")$
+print("A`=" ,ev(Anew,nouns))$
+
+
+load("eigen");
+print("Задание 11.1")$
+print("Привести квадратичную форму к каноническому виду")$
+s:-2*x_1^2+2*x_2^2-2*x_3^2+4*x_1*x_2-6*x_1*x_3+4*x_2*x_3$
+print(s)$
+print("Запишем матрицу квадратичной формы")$
+a:matrix([ratcoef(s,x_1,2),ratcoef(s,x_1*x_2)/2,ratcoef(s,x_1*x_3)/2],[ratcoef(s,x_2*x_1)/2,ratcoef(s,x_2,2),ratcoef(s,x_2*x_3)/2],[ratcoef(s,x_3*x_1)/2,ratcoef(s,x_3*x_2)/2,ratcoef(s,x_3,2)])$
+print("A=",a)$
+print("Найдем характеристический многочлен")$
+p:expand (charpoly (a, lambda))$
+print("P(?)=",p)$
+l:uniteigenvectors (a);
+print("Найдем собственные значение и собственные векторы")$
+o:transpose(matrix(l[2][1][1],l[2][2][1],l[2][3][1]))$
+print(?_1=l[1][1][1],v_1=col(o,1))$
+print(?_2=l[1][1][2],v_2=col(o,2))$
+print(?_3=l[1][1][3],v_3=col(o,3))$
+pritn("Составим диагональную матрицу")$
+d:matrix([l[1][1][1],0,0],[0,l[1][1][2],0],[0,0,l[1][1][3]])$
+print("D=",d)$
+print("Составим матрицу преобразования")$
+print("T=",o)$
+print("Проверим равенство A=T*D*T^T")$
+c:(o.d.transpose(o))$
+print(a=c)$
